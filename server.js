@@ -2,6 +2,7 @@
 
 var sql = require('mssql')
 var app = require('express')()
+var cors = require('cors')
 
 function getPass () {
   var pass = process.env.PASSWORD
@@ -36,6 +37,8 @@ function addComment (fName, lName, articleTitle, content) {
 }
 
 function makeRouter () {
+  app.use(cors())
+  
   app.get('/articles', (req, res) => {
     getArticles().then((data) => {
       res.json(data)

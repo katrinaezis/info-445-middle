@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.7.1",
     "express": "^4.13.4",
     "mssql": "^3.3.0"
   }
