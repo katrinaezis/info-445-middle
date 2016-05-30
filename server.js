@@ -36,7 +36,7 @@ function addComment (fName, lName, articleTitle, content) {
 }
 
 function makeRouter () {
-  app.get('/articles`', (req, res) => {
+  app.get('/articles', (req, res) => {
     getArticles().then((data) => {
       res.json(data)
     })
