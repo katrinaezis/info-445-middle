@@ -3,7 +3,7 @@
 var sql = require('mssql')
 var app = require('express')()
 
-function getPass() {
+function getPass () {
   var pass = process.env.PASSWORD
   if (!pass) {
     throw new Error('Missing PASSWORD environment variable')
@@ -26,11 +26,26 @@ function getArticles () {
   return new sql.Request().query('SELECT TOP 20 * FROM ARTICLE')
 }
 
+function addComment (fName, lName, articleTitle, content) {
+  return new sql.Request()
+    .input('personFName', fName)
+    .input('personLName', lName)
+    .input('articleTitle', articleTitle)
+    .input('content', content)
+    .execute('uspAddComment')
+}
+
 function makeRouter () {
-  app.get('/', function(req, res) {
+  app.get('/', (req, res) => {
     getArticles().then((data) => {
       res.json(data)
     })
+  })
+
+  // Makes a test comment and writes it out to the database!
+  app.get('/test', (req, res) => {
+    addComment('Greg', 'Hay', 'Clinton: Stupid CNN article', 'This is another comment from the WEB')
+      .then(() => { console.log('Hello')} )
   })
 }
 
