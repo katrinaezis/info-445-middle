@@ -46,9 +46,9 @@ function makeRouter () {
   })
 
   // Makes a test comment and writes it out to the database!
-  app.get('/test', (req, res) => {
-    addComment('Greg', 'Hay', 'Clinton: Stupid CNN article', 'This is another comment from the WEB')
-      .then(() => { console.log('Hello')} )
+  app.post('/articles', (req, res) => {
+    addComment(req.body.lname, req.body.lname, req.body.title, req.body.content)
+      .then(() => { console.log('Added new comment')} )
   })
 }
 
