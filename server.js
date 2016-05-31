@@ -47,13 +47,11 @@ function addComment (fName, lName, articleTitle, content) {
 function deleteComment (id) {
   const delComment = () => {
     const commentDeleteQ = `DELETE FROM COMMENT WHERE CommentID = ${id}`
-    console.log('Deleting comment')
     return new sql.Request().query(commentDeleteQ)
   }
 
   const delCommentReview = () => {
     const commentReviewDeleteQ = `DELETE FROM REVIEW_COMMENT WHERE CommentID = ${id}` 
-    console.log('Deleting comment review')
     return new sql.Request().query(commentReviewDeleteQ)
   }
 
@@ -63,7 +61,6 @@ function deleteComment (id) {
     .then(delCommentReview())
     .then(() => {
       // We only get here if the above deletions succeed
-      console.log('Everything should be gud')
       return tran.commit()
     })
 }
@@ -90,13 +87,13 @@ function makeRouter () {
   app.get('/comments/:id', (req, res) => {
     getComments(req.params.id)
       .then(() => { res.sendStatus(200) })
-      .catch((e) => { res.status(400).json({ error: e }) })
+      .catch((e) => { res.status(400).json({ error: e.message }) })
   })
 
   // Deletes the comment from the database
   app.get('/comments/delete/:id', (req, res) => {
     deleteComment(req.params.id)
-      .then(() =>{ res.sendstatus(200) })
+      .then(() =>{ res.sendStatus(200) })
       .catch((e) => { res.status(400).json({ error: e.message }) })
   })
 
