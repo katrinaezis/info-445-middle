@@ -30,7 +30,12 @@ function getArticles () {
 
 // Returns the comments for a given article ID
 function getComments (id) {
-  const q = `SELECT * FROM COMMENT WHERE ArticleID = ${id}`
+  // Need to get reviews and join!
+  const q = `SELECT * FROM COMMENT C
+  JOIN REVIEW_COMMENT RC ON C.CommentID = RC.CommentID
+  JOIN REVIEW R ON R.ReviewID = RC.ReviewID
+  JOIN ARTICLE A ON A.ArticleID = R.ArticleID
+  WHERE A.ArticleID = ${id}`
   return new sql.Request().query(q)
 }
 
@@ -93,7 +98,7 @@ function makeRouter () {
   // Get's all the comments associated with a given articleID
   app.get('/comments/:id', (req, res) => {
     getComments(req.params.id)
-      .then(() => { res.sendStatus(200) })
+      .then((data) => { res.json(data) })
       .catch((e) => { res.status(400).json({ error: e.message }) })
   })
 
