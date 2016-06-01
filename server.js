@@ -79,8 +79,15 @@ function makeRouter () {
 
   // Makes a test comment and writes it out to the database!
   app.post('/comments', (req, res) => {
-    addComment(req.body.lname, req.body.lname, req.body.title, req.body.content)
-      .then(() => { console.log('Added new comment')} )
+    addComment(req.body.fname, req.body.lname, req.body.title, req.body.content)
+      .then(() => { 
+        console.log('Added new comment')
+        res.sendStatus(200)
+      })
+      .catch((e) => {
+        console.log(e)
+        res.sendStatus(404)
+      })
   })
 
   // Get's all the comments associated with a given articleID
